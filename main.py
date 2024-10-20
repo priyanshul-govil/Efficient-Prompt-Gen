@@ -27,11 +27,8 @@ def main():
     ds = load_and_preprocess_dataset(dataset_name=dataset_name, tokenizer=tokenizer)
 
     # Split datasets
-    # train_ds = ds["train"].select(range(2000))
-    # eval_ds = ds["validation"].select(range(500))
-
-    train_ds = ds["train"]
-    eval_ds = ds["validation"]
+    train_ds = ds["train"].select(range(10000))
+    eval_ds = ds["validation"].select(range(500))
 
     # Optimizer and scheduler
     optimizer = AdamW(model.parameters(), lr=LEARNING_RATE)
@@ -41,21 +38,22 @@ def main():
 
     # print("Test set column names:", ds["test"].column_names)
 
-    model_path = f"{OUTPUT_DIR}/{args.dataset}_model"
+    model_path = f"..//ada_user/{OUTPUT_DIR}/{args.dataset}_bmodel"
 
-    model.save_pretrained(model_path)
-
-    # # Evaluate the model
-    evaluate_with_logits(model_path, tokenizer, ds, dataset_name, device)
+    torch.save(model.state_dict(), model_path)
+    
+    ## Evaluate the model
+    # evaluate_with_logits(model, tokenizer, ds, dataset_name, device)
 
     print("\n\n Training the model...\n\n")
     # Train the model
     train_prompt_tuning(model, train_ds, eval_ds, optimizer, scheduler, device, dataset_name, model_path)
 
-    model.save_pretrained(model_path)
+    torch.save(model.state_dict(), model_path)
+
     print(model_path)
     # Evaluate the model
-    evaluate_with_logits(model_path, tokenizer, ds, dataset_name, device)
+    evaluate_with_logits(model, tokenizer, ds, dataset_name, device)
 
 if __name__ == "__main__":
     main()

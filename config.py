@@ -1,5 +1,4 @@
 # config.py
-
 # Dataset-specific configurations
 DATASET_CONFIGS = {
     "sst2": {
@@ -41,5 +40,5 @@ NUM_VIRTUAL_TOKENS = 20
 OUTPUT_DIR = "pt_model"
 MAX_LENGTH = 64
 BATCH_SIZE = 16
-NUM_EPOCHS = 10
+NUM_EPOCHS = 5
 LEARNING_RATE = 3e-4

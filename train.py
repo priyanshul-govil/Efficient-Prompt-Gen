@@ -54,7 +54,7 @@ def train_prompt_tuning(model, train_ds, eval_ds, optimizer, scheduler, device, 
         print(f"Epoch {epoch}, Loss: {total_loss / len(train_dataloader)}")
 
         # Save model
-        model.save_pretrained(model_path)
-
-        evaluate_with_logits(model_path, tokenizer, ds, dataset_name, device)
+        torch.save(model.state_dict(), model_path)
+        
+        # evaluate_with_logits(model_path, tokenizer, ds, dataset_name, device)
 
